@@ -20,12 +20,17 @@ export const userReducer = createSlice({
         addUser: (state, action)=>{
             state.value = action.payload
         },
+        // basic adding reducer
         addHobby: (state, action)=>{
             const newHobby = action.payload.newHobby;
             state.value.hobbies.push(newHobby);
         }
     }
 });
+
+export const themeReducer = createSlice({
+    name:'themeReducer',
+})
 
 // passing on reducer actions 
 export const {addUser, addHobby} = userReducer.actions;

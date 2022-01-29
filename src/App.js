@@ -8,24 +8,36 @@ const App = () => {
   // dispatch used to dispatch actions
   const dispatch = useDispatch();
   // useSelector used in order to fetch reducer values
-  const state = useSelector((state)=>state.user.value);
+  const userDetails = useSelector((state)=>state.user.value);
 
   const handleHobby = (e)=>{
     e.preventDefault();
     if(!hobby) return;
     try{
-      dispatch(addHobby({newHobby: hobby}));
+      if(!checkHobby(hobby)){
+        dispatch(addHobby({newHobby: hobby}));
+      }else{
+        console.log('Write another hobby fucker')
+      }
     }catch{
       throw new Error;
     }
   }
+
+  const checkHobby = (hobby)=>{
+    const existHobby = userDetails.hobbies?.find((userHobby)=>userHobby === hobby);
+    if(existHobby){
+      return true;
+    }
+    return false;
+  }
   
   return <div style={{display:'flex', justifyContent:'center',
   alignItems:'center', flexDirection:'column'}}>
-      <h5>{state.name}</h5>
-      <h5>{state.age}</h5>
+      <h5>{userDetails.name}</h5>
+      <h5>{userDetails.age}</h5>
       <ul>
-        {state.hobbies?.map((singleHobby, index)=>{
+        {userDetails.hobbies?.map((singleHobby, index)=>{
           return (
               <li key={index}>{singleHobby}</li>
           )
