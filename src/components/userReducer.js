@@ -23,7 +23,13 @@ export const userReducer = createSlice({
         // basic adding reducer
         addHobby: (state, action)=>{
             const newHobby = action.payload.newHobby;
-            state.value.hobbies.push(newHobby);
+            const hobbyId = action.payload.newHobbyId;
+            state.value.hobbies.push({hobby: newHobby, id: hobbyId});
+        },
+        deleteHobby:(state,action)=>{
+            const id = action.payload;
+            const newHobbies = state.value.hobbies?.filter((hobby)=> hobby.id !== id);
+            state.value.hobbies.push(newHobbies);
         }
     }
 });
@@ -33,5 +39,5 @@ export const themeReducer = createSlice({
 })
 
 // passing on reducer actions 
-export const {addUser, addHobby} = userReducer.actions;
+export const {addUser, addHobby, deleteHobby} = userReducer.actions;
 export default userReducer.reducer;

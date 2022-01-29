@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser, addHobby } from './components/userReducer';
+import { addUser, addHobby, deleteHobby } from './components/userReducer';
 
 const App = () => {
   const hobbies = ['soccer', 'coding', 'basketball'];
@@ -9,13 +9,14 @@ const App = () => {
   const dispatch = useDispatch();
   // useSelector used in order to fetch reducer values
   const userDetails = useSelector((state)=>state.user.value);
+  console.log(userDetails);
 
   const handleHobby = (e)=>{
     e.preventDefault();
     if(!hobby) return;
     try{
       if(!checkHobby(hobby)){
-        dispatch(addHobby({newHobby: hobby}));
+        dispatch(addHobby({newHobby: hobby, newHobbyId: new Date()}));
       }else{
         console.log('Write another hobby fucker')
       }
@@ -31,6 +32,10 @@ const App = () => {
     }
     return false;
   }
+
+  const deleteHobbyHandler = (hobbyId)=>{
+    dispatch(deleteHobby(hobbyId));
+  }
   
   return <div style={{display:'flex', justifyContent:'center',
   alignItems:'center', flexDirection:'column'}}>
@@ -39,7 +44,10 @@ const App = () => {
       <ul>
         {userDetails.hobbies?.map((singleHobby, index)=>{
           return (
-              <li key={index}>{singleHobby}</li>
+            <div key={index}>
+              <li >{singleHobby.hobby}</li>
+              <button onClick={()=>deleteHobbyHandler(singleHobby.id)}>Delete Me</button>
+            </div>   
           )
         })}
       </ul>
